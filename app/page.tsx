@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { Htag } from './components';
+import { Button, Htag } from './components';
 
 export const metadata: Metadata = {
   title: 'Home page',
@@ -10,6 +10,7 @@ export default function Home() {
   return (
     <>
       <Htag tag='h2'>Hello Dimas</Htag>
+       <Button appearance='primary' arrow='right'>CLick me</Button>
     </>
   );
 }
