@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <>
       <Htag tag='h2'>Hello Dimas</Htag>
-      <Button appearance='primary' arrow='right'>
+      <Button appearance='primary' arrow='right' >
         CLick me
       </Button>
          
