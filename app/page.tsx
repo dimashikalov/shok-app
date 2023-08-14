@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <>
+    <main>
       <Htag tag="h2">Hello Dimas</Htag>
       <Button appearance="primary" arrow="right">
         CLick me
@@ -41,6 +41,6 @@ export default function Home() {
         mediem
       </Tag>
       <Rating isEditable />
-    </>
+    </main>
   );
 }

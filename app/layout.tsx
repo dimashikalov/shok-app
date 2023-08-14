@@ -1,11 +1,10 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter, Noto_Sans } from "next/font/google";
+import { Noto_Sans } from "next/font/google";
 import { Header } from "./layout/Header/Header";
 import { Sidebar } from "./layout/Sidebar/Sidebar";
 import { Footer } from "./layout/Footer/Footer";
-
-const inter = Inter({ subsets: ["latin"] });
+import styles from "./Layout.module.css";
 
 export const metadata: Metadata = {
   title: "Проект на Next",
@@ -27,16 +26,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={noto_sans.className}>
       <head></head>
-      <body className={inter.className}>
-        <>
-          <Header />
-          <div>
-            <Sidebar />
+      <body>
+        <div className={styles.wrapper}>
+          <Header className={styles.header} />
+          <Sidebar className={styles.sidebar} />
 
-            <div>{children}</div>
-          </div>
-          <Footer />
-        </>
+          <div className={styles.body}>{children}</div>
+          <Footer className={styles.footer} />
+        </div>
       </body>
     </html>
   );
