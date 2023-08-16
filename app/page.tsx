@@ -7,6 +7,8 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
+  console.log("hello");
+
   return (
     <main>
       <Htag tag="h2">Hello Dimas</Htag>
