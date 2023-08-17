@@ -1,11 +1,26 @@
 import { Metadata } from "next";
 import { Button, Htag, P, Rating, Tag } from "./components";
+// import { getMenu } from "@/api/menu";
 import { MenuItem } from "@/interfaces/menu.interface";
+import { API } from "./api";
 
 export const metadata: Metadata = {
   title: "Home page",
   description: "Some text",
 };
+
+async function getMenu(firstCategory: number): Promise<MenuItem[]> {
+  const res = await fetch(API.topPage.find, {
+    method: "POST",
+    body: JSON.stringify({
+      firstCategory,
+    }),
+    headers: new Headers({ "content-type": "application/json" }),
+    next: { revalidate: 10 },
+  });
+  console.log("revalidating getMenu");
+  return res.json();
+}
 
 export default async function Home() {
   const menu = await getMenu(0);
@@ -52,19 +67,4 @@ export default async function Home() {
       </ul>
     </main>
   );
-}
-
-async function getMenu(firstCategory: number): Promise<MenuItem[]> {
-  const res = await fetch(
-    process.env.NEXT_PUBLIC_DOMAIN + "/api/top-page/find",
-    {
-      method: "POST",
-      body: JSON.stringify({
-        firstCategory,
-      }),
-      headers: new Headers({ "content-type": "application/json" }),
-    }
-  ).then((res) => res.json());
-
-  return res;
 }
