@@ -1,13 +1,14 @@
 import { Metadata } from "next";
 import { Button, Htag, P, Rating, Tag } from "./components";
+import { MenuItem } from "@/interfaces/menu.interface";
 
 export const metadata: Metadata = {
   title: "Home page",
   description: "Some text",
 };
 
-export default function Home() {
-  console.log("hello");
+export default async function Home() {
+  const menu = await getMenu(0);
 
   return (
     <main>
@@ -19,7 +20,7 @@ export default function Home() {
       <Button appearance="ghost" arrow="down">
         CLick me
       </Button>
-      <P>
+      <P size="m">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi,
         cupiditate.
       </P>
@@ -31,11 +32,12 @@ export default function Home() {
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi,
         cupiditate.
       </P>
-      <P>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi,
-        cupiditate.
-      </P>
-      <Tag size="s">Small</Tag>
+      <Tag size="s" color="ghost">
+        Small
+      </Tag>
+      <Tag size="s" color="primary">
+        Small
+      </Tag>
       <Tag size="m" color="red">
         mediem
       </Tag>
@@ -43,6 +45,26 @@ export default function Home() {
         mediem
       </Tag>
       <Rating isEditable />
+      <ul>
+        {menu.map((m) => (
+          <li key={m._id.secondCategory}>{m._id.secondCategory}</li>
+        ))}
+      </ul>
     </main>
   );
+}
+
+async function getMenu(firstCategory: number): Promise<MenuItem[]> {
+  const res = await fetch(
+    process.env.NEXT_PUBLIC_DOMAIN + "/api/top-page/find",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        firstCategory,
+      }),
+      headers: new Headers({ "content-type": "application/json" }),
+    }
+  ).then((res) => res.json());
+
+  return res;
 }
