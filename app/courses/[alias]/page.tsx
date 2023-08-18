@@ -1,22 +1,28 @@
+import { getMenu } from "@/api/menu";
+import { getPage } from "@/api/page";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Course page",
 };
 
-// const firstCategory = 0;
+export async function generateStaticParams() {
+  const menu = await getMenu(0);
+  return menu.flatMap((item) =>
+    item.pages.map((page) => ({ alias: page.alias }))
+  );
+}
 
-export default function CourcePage({
+export default async function CourcePage({
   params,
 }: {
   params: { alias: string };
-}): JSX.Element {
-  return <div>Страница с alias {params.alias}</div>;
-}
+}) {
+  const page = await getPage(params.alias);
+  if (!page) {
+    notFound();
+  }
 
-// interface CourceProps extends Record<string, unknown> {
-//   menu: MenuItem[];
-//   firstCategory: number;
-//   page: TopPageModel;
-//   products: ProductModel[];
-// }
+  return <div>{page.title}</div>;
+}

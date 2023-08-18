@@ -1,30 +1,13 @@
 import { Metadata } from "next";
 import { Button, Htag, P, Rating, Tag } from "./components";
-// import { getMenu } from "@/api/menu";
-import { MenuItem } from "@/interfaces/menu.interface";
-import { API } from "./api";
+import Menu from "./components/Menu/Menu";
 
 export const metadata: Metadata = {
   title: "Home page",
   description: "Some text",
 };
 
-async function getMenu(firstCategory: number): Promise<MenuItem[]> {
-  const res = await fetch(API.topPage.find, {
-    method: "POST",
-    body: JSON.stringify({
-      firstCategory,
-    }),
-    headers: new Headers({ "content-type": "application/json" }),
-    next: { revalidate: 10 },
-  });
-  console.log("revalidating getMenu");
-  return res.json();
-}
-
 export default async function Home() {
-  const menu = await getMenu(0);
-
   return (
     <main>
       <Htag tag="h2">Hello Dimas</Htag>
@@ -60,11 +43,7 @@ export default async function Home() {
         mediem
       </Tag>
       <Rating isEditable />
-      <ul>
-        {menu.map((m) => (
-          <li key={m._id.secondCategory}>{m._id.secondCategory}</li>
-        ))}
-      </ul>
+      <Menu />
     </main>
   );
 }
