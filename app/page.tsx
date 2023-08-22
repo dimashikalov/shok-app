@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import { Button, Htag, P, Rating, Tag } from "./components";
-import Menu from "./components/Menu/Menu";
 
 export const metadata: Metadata = {
   title: "Home page",
@@ -43,7 +42,6 @@ export default async function Home() {
         mediem
       </Tag>
       <Rating isEditable />
-      <Menu />
     </main>
   );
 }
