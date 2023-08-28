@@ -24,7 +24,8 @@ export default async function CourcePage({
   console.log("params", params);
 
   const page = await getPage(params.alias);
-  const products = await getProducts<ProductModel[]>(params.alias);
+  const products = await getProducts<ProductModel[]>(page);
+
   if (!page) {
     notFound();
   }
