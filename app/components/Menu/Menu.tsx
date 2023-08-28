@@ -1,49 +1,20 @@
 "use client";
 
-import { getMenu } from "@/api/menu";
 import { TopLevelCategory } from "@/interfaces/page.interface";
 import cn from "classnames";
 import styles from "./Menu.module.css";
-import CoursesIcon from "./icons/courses.svg";
-import ServicesIcon from "./icons/services.svg";
-import BooksIcon from "./icons/books.svg";
-import ProductsIcon from "./icons/products.svg";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-
-export const firstLevelMenu: FirstLevelMenuItem[] = [
-  {
-    route: "courses",
-    name: "Курсы",
-    icon: <CoursesIcon />,
-    id: TopLevelCategory.Courses,
-  },
-  {
-    route: "services",
-    name: "Сервисы",
-    icon: <ServicesIcon />,
-    id: TopLevelCategory.Services,
-  },
-  {
-    route: "books",
-    name: "Книги",
-    icon: <BooksIcon />,
-    id: TopLevelCategory.Books,
-  },
-  {
-    route: "products",
-    name: "Продукты",
-    icon: <ProductsIcon />,
-    id: TopLevelCategory.Products,
-  },
-];
+import { firstLevelMenu } from "@/helpers/helpers";
+import { FirstLevelMenuItem, PageItem } from "@/interfaces/menu.interface";
 
 export default function Menu({ menu }) {
   const firstCategory = TopLevelCategory.Courses;
   const router = useRouter();
   const pathname = usePathname();
   const [menuState, setMenuState] = useState<MenuItem[]>(menu);
+
   const setMenu = (newMenu: MenuItem[]) => {
     setMenuState(newMenu);
   };

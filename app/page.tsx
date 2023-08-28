@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: "Some text",
 };
 
-export default async function Home() {
+export default async function Home(): JSX.Element {
   return (
     <main>
       <Htag tag="h2">Hello Dimas</Htag>
