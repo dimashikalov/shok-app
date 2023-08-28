@@ -1,5 +1,7 @@
 import { getMenu } from "@/api/menu";
 import { getPage } from "@/api/page";
+import { getProducts } from "@/api/products";
+import { ProductModel } from "@/interfaces/product.interface";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -19,10 +21,17 @@ export default async function CourcePage({
 }: {
   params: { alias: string };
 }) {
+  console.log("params", params);
+
   const page = await getPage(params.alias);
+  const products = await getProducts<ProductModel[]>(params.alias);
   if (!page) {
     notFound();
   }
 
-  return <div>{page.title}</div>;
+  return (
+    <div>
+      {page.title} {products.length}
+    </div>
+  );
 }
