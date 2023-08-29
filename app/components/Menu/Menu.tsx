@@ -4,14 +4,17 @@ import { TopLevelCategory } from "@/interfaces/page.interface";
 import cn from "classnames";
 import styles from "./Menu.module.css";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { firstLevelMenu } from "@/helpers/helpers";
-import { FirstLevelMenuItem, PageItem } from "@/interfaces/menu.interface";
+import {
+  FirstLevelMenuItem,
+  MenuItem,
+  PageItem,
+} from "@/interfaces/menu.interface";
 
-export default function Menu({ menu }) {
+export default function Menu({ menu }: { menu: MenuItem[] }) {
   const firstCategory = TopLevelCategory.Courses;
-  const router = useRouter();
   const pathname = usePathname();
   const [menuState, setMenuState] = useState<MenuItem[]>(menu);
 
@@ -22,7 +25,7 @@ export default function Menu({ menu }) {
   const openSecondLevel = (secondCategory: string) => {
     setMenu &&
       setMenu(
-        menu.map((m) => {
+        menuState.map((m) => {
           if (m._id.secondCategory == secondCategory) {
             m.isOpened = !m.isOpened;
           }
@@ -58,7 +61,7 @@ export default function Menu({ menu }) {
   const buildSecondLevel = (menuItem: FirstLevelMenuItem) => {
     return (
       <div className={styles.secondBlock}>
-        {menu.map((m) => {
+        {menuState.map((m) => {
           if (m.pages.map((p) => p.alias).includes(pathname.split("/")[2])) {
             m.isOpened = true;
           }
@@ -90,7 +93,7 @@ export default function Menu({ menu }) {
       <Link href={`/${route}/${p.alias}`} key={p.alias} legacyBehavior>
         <a
           className={cn(styles.thirdLevel, {
-            [styles.thirdLevelActive]: `/${route}/${p.alias}` == router.asPath,
+            [styles.thirdLevelActive]: `/${route}/${p.alias}` == pathname,
           })}
         >
           {p.category}

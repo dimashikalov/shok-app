@@ -5,10 +5,7 @@ import styles from "./Sidebar.module.css";
 import cn from "classnames";
 import Logo from "../logo.svg";
 
-export const Sidebar = async ({
-  className,
-  ...props
-}: SidebarProps): JSX.Element => {
+export const Sidebar = async ({ className, ...props }: SidebarProps) => {
   const menu = await getMenu(0);
   return (
     <div className={cn(className, styles.sidebar)} {...props}>

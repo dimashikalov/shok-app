@@ -1,7 +1,10 @@
 import { API } from "@/app/api";
-import { PageItem } from "@/interfaces/menu.interface";
+import { MenuItem } from "@/interfaces/menu.interface";
+import { TopPageModel } from "@/interfaces/page.interface";
 
-export async function getProducts(page: PageItem): Promise<MenuItem[]> {
+export async function getProducts(
+  page: TopPageModel
+): Promise<MenuItem[] | null> {
   const res = await fetch(API.product.find, {
     method: "POST",
     body: JSON.stringify({
@@ -11,6 +14,9 @@ export async function getProducts(page: PageItem): Promise<MenuItem[]> {
     headers: new Headers({ "content-type": "application/json" }),
     next: { revalidate: 10 },
   });
-  console.log("revalidating getProduct");
+
+  if (!res.ok) {
+    return null;
+  }
   return res.json();
 }
