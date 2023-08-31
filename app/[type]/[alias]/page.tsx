@@ -1,6 +1,8 @@
 import { getMenu } from "@/api/menu";
 import { getPage } from "@/api/page";
 import { getProducts } from "@/api/products";
+import { TopPageComponent } from "@/app/page-components";
+import { firstLevelMenu } from "@/helpers/helpers";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -15,14 +17,20 @@ export async function generateStaticParams() {
   );
 }
 
-export default async function CourcePage({
+export default async function TopPage({
   params,
 }: {
   params: { alias: string };
 }) {
   let products;
   const page = await getPage(params.alias);
+  const firstCategoryItem = firstLevelMenu.find((m) => m.route == params.type);
 
+  if (!firstCategoryItem) {
+    return {
+      notFound: true,
+    };
+  }
   if (page) {
     products = await getProducts(page);
   }
@@ -32,8 +40,10 @@ export default async function CourcePage({
   }
 
   return (
-    <div>
-      {page.title} {products && products?.length}
-    </div>
+    <TopPageComponent
+      products={products}
+      firstCategory={firstCategoryItem.id}
+      page={page}
+    />
   );
 }
