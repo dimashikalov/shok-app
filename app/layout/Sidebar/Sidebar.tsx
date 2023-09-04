@@ -7,6 +7,7 @@ import Logo from "../logo.svg";
 
 export const Sidebar = async ({ className, ...props }: SidebarProps) => {
   const menu = await getMenu(0);
+
   return (
     <div className={cn(className, styles.sidebar)} {...props}>
       <Logo className={styles.logo} />
