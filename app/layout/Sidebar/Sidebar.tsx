@@ -4,6 +4,7 @@ import { getMenu } from "@/api/menu";
 import styles from "./Sidebar.module.css";
 import cn from "classnames";
 import Logo from "../logo.svg";
+import Search from "@/app/components/Search/Search";
 
 export const Sidebar = async ({ className, ...props }: SidebarProps) => {
   const menu = await getMenu(0);
@@ -11,7 +12,7 @@ export const Sidebar = async ({ className, ...props }: SidebarProps) => {
   return (
     <div className={cn(className, styles.sidebar)} {...props}>
       <Logo className={styles.logo} />
-      <div>search</div>
+      <Search />
       <Menu menu={menu} />
     </div>
   );
