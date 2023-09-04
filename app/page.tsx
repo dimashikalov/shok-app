@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default async function Home() {
   return (
     <main>
-      <Htag tag="h2">Hello Dimas</Htag>
+      <Htag tag="h1">Hello Dimas</Htag>
       <Button appearance="primary" arrow="right">
         CLick me
       </Button>
