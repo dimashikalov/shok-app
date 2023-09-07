@@ -1,3 +1,4 @@
+/* stylelint-disable media-feature-range-notation */
 .wrapper{
 	display: grid;
 	grid-template-columns: auto 230px minmax(320px, 1200px) auto;
@@ -32,7 +33,7 @@
 	grid-area: footer;
 }
 
-@media screen and (max-width: 765px)  {
+@media screen and  (max-width: 765px)  {
 	.wrapper {
 		grid-template-columns: minmax(320px, 1fr);
 		

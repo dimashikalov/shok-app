@@ -1,72 +1,97 @@
 "use client";
+
+/* eslint-disable react/display-name */
 import { RatingProps } from "./Rating.props";
 import styles from "./Rating.module.css";
 import cn from "classnames";
-import { useState, useEffect, KeyboardEvent } from "react";
+import {
+  useState,
+  useEffect,
+  KeyboardEvent,
+  ForwardedRef,
+  forwardRef,
+} from "react";
 import StarIcon from "./star.svg";
 
-export const Rating = ({
-  //   rating,
-  //   setRating,
-  isEditable = false,
-  ...props
-}: RatingProps): JSX.Element => {
-  const [ratingArray, setRatingArray] = useState<JSX.Element[]>(
-    new Array(5).fill(<></>)
-  );
+export const Rating = forwardRef(
+  (
+    {
+      //   rating,
+      //   setRating,
+      isEditable = false,
+      error,
+      ...props
+    }: RatingProps,
+    ref: ForwardedRef<HTMLDivElement>
+  ): JSX.Element => {
+    const [ratingArray, setRatingArray] = useState<JSX.Element[]>(
+      new Array(5).fill(<></>)
+    );
 
-  const [rating, setRating] = useState<number>(4);
+    const [rating, setRating] = useState<number>(0);
 
-  useEffect(() => {
-    constructRating(rating);
-  }, [rating]);
+    useEffect(() => {
+      constructRating(rating);
+    }, [rating]);
 
-  const constructRating = (currentRating: number) => {
-    const updateArray = ratingArray.map((r: JSX.Element, i: number) => {
-      return (
-        <span key={i}>
-          <StarIcon
-            className={cn(styles.star, {
-              [styles.filled]: i < currentRating,
-              [styles.editable]: isEditable,
-            })}
-            onMouseEnter={() => changeDisplay(i + 1)}
-            onMouseLeave={() => changeDisplay(rating)}
-            onClick={() => onClick(i + 1)}
-            tabIndex={isEditable ? 0 : -1}
-            onKeyDown={(e: KeyboardEvent<SVGElement>) =>
-              isEditable && handleSpace(i + 1, e)
-            }
-          />
-        </span>
-      );
-    });
-    setRatingArray(updateArray);
-  };
+    const constructRating = (currentRating: number) => {
+      const updateArray = ratingArray.map((r: JSX.Element, i: number) => {
+        return (
+          <span key={i}>
+            <StarIcon
+              className={cn(styles.star, {
+                [styles.filled]: i < currentRating,
+                [styles.editable]: isEditable,
+              })}
+              onMouseEnter={() => changeDisplay(i + 1)}
+              onMouseLeave={() => changeDisplay(rating)}
+              onClick={() => onClick(i + 1)}
+              tabIndex={isEditable ? 0 : -1}
+              onKeyDown={(e: KeyboardEvent<SVGElement>) =>
+                isEditable && handleSpace(i + 1, e)
+              }
+            />
+          </span>
+        );
+      });
+      setRatingArray(updateArray);
+    };
 
-  const changeDisplay = (i: number) => {
-    if (!isEditable) return;
+    const changeDisplay = (i: number) => {
+      if (!isEditable) return;
 
-    constructRating(i);
-  };
+      constructRating(i);
+    };
 
-  const onClick = (i: number) => {
-    if (!isEditable || !setRating) return;
+    const onClick = (i: number) => {
+      if (!isEditable || !setRating) return;
 
-    setRating(i);
-  };
+      setRating(i);
+    };
 
-  const handleSpace = (i: number, e: KeyboardEvent<SVGElement>) => {
-    if (e.code != "Space" || !setRating) return;
+    const handleSpace = (i: number, e: KeyboardEvent<SVGElement>) => {
+      if (e.code != "Space" || !setRating) return;
 
-    setRating(i);
-  };
+      setRating(i);
+    };
 
-  return (
-    <div {...props}>
-      {ratingArray.map((r, i) => (
-        <span key={i}>{r}</span>
-      ))}
-    </div>
-  );
-};
+    return (
+      <div
+        {...props}
+        ref={ref}
+        className={cn(styles.ratingWrapper, {
+          [styles.error]: error,
+        })}
+      >
+        {ratingArray.map((r, i) => (
+          <span key={i}>{r}</span>
+        ))}
+        {error && (
+          <span role="alert" className={styles.errorMessage}>
+            {error.message}
+          </span>
+        )}
+      </div>
+    );
+  }
+);

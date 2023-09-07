@@ -3,10 +3,11 @@
 import { useState } from "react";
 import { SearchProps } from "./Search.props";
 import { useRouter } from "next/navigation";
-import { Button, Input } from "..";
+import { Button } from "..";
 import GlassIcon from "./glass.svg";
 import cn from "classnames";
 import styles from "./Search.module.css";
+import { Input } from "../Input/Input";
 
 export default function Search({
   className,
