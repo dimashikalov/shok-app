@@ -1,5 +1,7 @@
 import { Metadata } from "next";
-import { Button, Htag, Input, P, Rating, Tag, Textarea } from "./components";
+import { Button, Htag, P, Rating, Tag } from "./components";
+import { Input } from "./components/Input/Input";
+import { Textarea } from "./components/Textarea/Textarea";
 
 export const metadata: Metadata = {
   title: "Home page",
