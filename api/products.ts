@@ -1,4 +1,4 @@
-import { API } from "@/app/api";
+import { API } from "@/helpers/api";
 import { MenuItem } from "@/interfaces/menu.interface";
 import { TopPageModel } from "@/interfaces/page.interface";
 

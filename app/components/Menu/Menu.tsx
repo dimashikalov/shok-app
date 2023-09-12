@@ -12,11 +12,31 @@ import {
   MenuItem,
   PageItem,
 } from "@/interfaces/menu.interface";
+import { motion, useReducedMotion } from "framer-motion";
 
 export default function Menu({ menu }: { menu: MenuItem[] }) {
   const firstCategory = TopLevelCategory.Courses;
   const pathname = usePathname();
   const [menuState, setMenuState] = useState<MenuItem[]>(menu);
+
+  const variants = {
+    visible: {
+      marginBottom: 20,
+      transition: {
+        when: "beforeChildren",
+        staggerChildren: 0.1,
+      },
+    },
+    hidden: { marginBottom: 0 },
+  };
+
+  const variantsChildren = {
+    visible: {
+      opacity: 1,
+      height: 29,
+    },
+    hidden: { opacity: 0, height: 0 },
+  };
 
   const setMenu = (newMenu: MenuItem[]) => {
     setMenuState(newMenu);
@@ -74,13 +94,15 @@ export default function Menu({ menu }: { menu: MenuItem[] }) {
                 {m._id.secondCategory}
               </div>
 
-              <div
-                className={cn(styles.secondLevelBlock, {
-                  [styles.secondLevelBlockOpened]: m.isOpened,
-                })}
+              <motion.div
+                layout
+                variants={variants}
+                initial={m.isOpened ? "visible" : "hidden"}
+                animate={m.isOpened ? "visible" : "hidden"}
+                className={cn(styles.secondLevelBlock)}
               >
                 {buildThirdLevel(m.pages, menuItem.route)}
-              </div>
+              </motion.div>
             </div>
           );
         })}
@@ -90,15 +112,17 @@ export default function Menu({ menu }: { menu: MenuItem[] }) {
 
   const buildThirdLevel = (pages: PageItem[], route: string) => {
     return pages.map((p) => (
-      <Link href={`/${route}/${p.alias}`} key={p.alias} legacyBehavior>
-        <a
-          className={cn(styles.thirdLevel, {
-            [styles.thirdLevelActive]: `/${route}/${p.alias}` == pathname,
-          })}
-        >
-          {p.category}
-        </a>
-      </Link>
+      <motion.li key={p._id} variants={variantsChildren}>
+        <Link href={`/${route}/${p.alias}`} key={p.alias} legacyBehavior>
+          <a
+            className={cn(styles.thirdLevel, {
+              [styles.thirdLevelActive]: `/${route}/${p.alias}` == pathname,
+            })}
+          >
+            {p.category}
+          </a>
+        </Link>
+      </motion.li>
     ));
   };
 
