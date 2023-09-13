@@ -5,6 +5,7 @@ import { Header } from "./layout/Header/Header";
 import { Sidebar } from "./layout/Sidebar/Sidebar";
 import { Footer } from "./layout/Footer/Footer";
 import styles from "./Layout.module.css";
+import { Up } from "./components/Up/Up";
 
 export const metadata: Metadata = {
   title: "Проект на Next",
@@ -33,6 +34,7 @@ export default function RootLayout({
 
           <div className={styles.body}>{children}</div>
           <Footer className={styles.footer} />
+          <Up />
         </div>
       </body>
     </html>

@@ -1,12 +1,13 @@
 "use client";
 
-import { Advantages, HhData, Htag, Product, Sort, Tag } from "@/app/components";
+import { Advantages, HhData, Htag, Sort, Tag } from "@/app/components";
 import { TopPageComponentProps } from "./TopPageComponent.props";
 import styles from "./TopPageComponent.module.css";
 import { TopLevelCategory } from "@/interfaces/page.interface";
 import { useEffect, useReducer } from "react";
 import { sortReducer } from "./sort.reducer";
 import { SortEnum } from "@/app/components/Sort/Sort.props";
+import Product from "@/app/components/Product/Product";
 
 export const TopPageComponent = ({
   firstCategory,

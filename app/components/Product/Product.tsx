@@ -13,7 +13,7 @@ import { motion } from "framer-motion";
 import Review from "../Review/Review";
 import ReviewForm from "../ReviewForm/ReviewForm";
 
-export const Product = motion(
+const Product = motion(
   forwardRef(
     (
       { product, className, ...props }: ProductProps,
@@ -132,25 +132,26 @@ export const Product = motion(
               </Button>
             </div>
           </Card>
-          <Card
-            color="blue"
-            className={cn(styles.reviews, {
-              [styles.opened]: isReviewOpened,
-              [styles.closed]: !isReviewOpened,
-            })}
-            ref={reviewRef}
+          <motion.div
+            animate={isReviewOpened ? "visible" : "hidden"}
+            variants={variants}
+            initial="hidden"
           >
-            {product.reviews.map((r) => (
-              <div key={r._id}>
-                <Review review={r} />
-                <Divider />
-              </div>
-            ))}
+            <Card color="blue" className={cn(styles.reviews)} ref={reviewRef}>
+              {product.reviews.map((r) => (
+                <div key={r._id}>
+                  <Review review={r} />
+                  <Divider />
+                </div>
+              ))}
 
-            <ReviewForm productId={product._id} />
-          </Card>
+              <ReviewForm productId={product._id} />
+            </Card>
+          </motion.div>
         </div>
       );
     }
   )
 );
+
+export default Product;
