@@ -5,7 +5,7 @@ import cn from "classnames";
 import styles from "./Menu.module.css";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { firstLevelMenu } from "@/helpers/helpers";
 import {
   FirstLevelMenuItem,
@@ -13,11 +13,23 @@ import {
   PageItem,
 } from "@/interfaces/menu.interface";
 import { motion, useReducedMotion } from "framer-motion";
+import { getMenu } from "@/api/menu";
 
 export default function Menu({ menu }: { menu: MenuItem[] }) {
-  const firstCategory = TopLevelCategory.Courses;
+  const [firstCategory, setFirstCategory] = useState(TopLevelCategory.Courses);
   const pathname = usePathname();
   const [menuState, setMenuState] = useState<MenuItem[]>(menu);
+  const [newMenu, setNewMenu] = useState<MenuItem[]>([]);
+
+  const fetchMenu = async (firstCategory) => {
+    const m = await getMenu(firstCategory);
+    setNewMenu(m);
+    setMenuState(m);
+  };
+
+  useEffect(() => {
+    fetchMenu(firstCategory);
+  }, [firstCategory]);
 
   const variants = {
     visible: {
@@ -65,6 +77,7 @@ export default function Menu({ menu }: { menu: MenuItem[] }) {
                   className={cn(styles.firstLevel, {
                     [styles.firstLevelActive]: m.id == firstCategory,
                   })}
+                  onClick={() => setFirstCategory(m.id)}
                 >
                   {m.icon}
                   <span>{m.name}</span>
