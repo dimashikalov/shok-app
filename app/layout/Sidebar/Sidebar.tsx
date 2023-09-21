@@ -1,3 +1,5 @@
+"use client";
+
 import Menu from "@/app/components/Menu/Menu";
 import { SidebarProps } from "./Sidebar.props";
 // import { getMenu } from "@/api/menu";
@@ -6,7 +8,7 @@ import cn from "classnames";
 import Logo from "../logo.svg";
 import Search from "@/app/components/Search/Search";
 
-export const Sidebar = async ({ className, ...props }: SidebarProps) => {
+export const Sidebar = ({ className, ...props }: SidebarProps) => {
   // const menu = await getMenu(0);
 
   return (
