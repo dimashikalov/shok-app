@@ -15,10 +15,10 @@ import {
 import { motion, useReducedMotion } from "framer-motion";
 import { getMenu } from "@/api/menu";
 
-export default function Menu({ menu }: { menu: MenuItem[] }) {
+export default function Menu() {
   const [firstCategory, setFirstCategory] = useState(TopLevelCategory.Courses);
   const pathname = usePathname();
-  const [menuState, setMenuState] = useState<MenuItem[]>(menu);
+  const [menuState, setMenuState] = useState<MenuItem[]>([]);
   const [newMenu, setNewMenu] = useState<MenuItem[]>([]);
 
   const fetchMenu = async (firstCategory) => {
@@ -139,5 +139,5 @@ export default function Menu({ menu }: { menu: MenuItem[] }) {
     ));
   };
 
-  return <div>{menu && buildFirstLevel()}</div>;
+  return <div>{menuState && buildFirstLevel()}</div>;
 }
